@@ -1,0 +1,30 @@
+Application Requirements 
+------------------------
+--> An application where user can order one or more pizzas from menu
+--> Requires no user accounts and no login: user just input their name before using the app.
+--> The pizza menu can change, so it should be loaded from an API
+--> User can add multiple pizzas to cart before ordering
+--> Ordering requires just the user's name, phone number and address.
+--> Gps location should also be provided, to make delivery easier
+--> Users can mark their order as "priority" for an additional 20% of the cart price.
+--> Payments are made on delivery(no payment processing is necessary in the app)
+--> Users should be able to mark their order as "priority" order even after it has
+been placed.
+
+Feature categories
+------------------
+1- User
+2- Menu
+3- Cart
+4- Order
+
+Necessary Pages
+---------------
+
+1- HomePage (/)
+2- Pizza Menu (/menu)
+3- Cart (/cart)
+4- Placing a new order (/order/new)
+5- Looking up an order (/order/:orderID)
+
+  

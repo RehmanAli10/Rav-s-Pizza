@@ -52,9 +52,7 @@ function Order() {
 }
 
 export async function Loader({ params }) {
-  console.log(params.orderId);
   const order = await getOrder(params.orderId);
-  console.log(order);
   return order;
 }
 

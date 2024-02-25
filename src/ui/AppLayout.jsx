@@ -2,8 +2,11 @@ import { Outlet, useNavigation } from 'react-router-dom';
 import LoadingIndicator from './LoadingIndicator';
 import CartOverview from '../features/cart/CartOverview';
 import Header from './Header';
+import { useSelector } from 'react-redux';
 
 function AppLayout() {
+  const data = useSelector((store) => store.cart);
+
   const navigation = useNavigation();
   const isLoading = navigation.state === 'loading';
 
@@ -18,7 +21,7 @@ function AppLayout() {
         </main>
       </div>
 
-      <CartOverview />
+      {data.cart.length > 0 && <CartOverview />}
     </div>
   );
 }

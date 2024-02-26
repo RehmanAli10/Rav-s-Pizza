@@ -11,10 +11,6 @@ function Cart() {
   const cart = useSelector(getCart);
   const userName = useSelector((store) => store.user.userName);
 
-  function handleClear() {
-    dispatch(clearCart());
-  }
-
   if (!cart.length) return <EmptyCart />;
 
   return (
@@ -34,7 +30,7 @@ function Cart() {
           Order pizzas
         </Button>
 
-        <Button type={'secondary'} onClick={handleClear}>
+        <Button type={'secondary'} onClick={() => dispatch(clearCart())}>
           Clear cart
         </Button>
       </div>

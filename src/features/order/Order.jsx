@@ -2,16 +2,22 @@
 
 import OrderItem from './OrderItem';
 
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, useFetcher } from 'react-router-dom';
 import { getOrder } from '../../services/apiRestaurant';
 import {
   calcMinutesLeft,
   formatCurrency,
   formatDate,
 } from '../../utils/helpers';
+import Button from '../../ui/Button';
+import { useDispatch } from 'react-redux';
+import { fetchOrder } from '../cart/cartSlice';
+import { useEffect } from 'react';
 
 function Order() {
   const order = useLoaderData();
+
+  const fetcher = useFetcher();
 
   // Everyone can search for all orders, so for privacy reasons we're gonna gonna exclude names or address, these are only for the restaurant staff
   const {
@@ -23,6 +29,15 @@ function Order() {
     estimatedDelivery,
     cart,
   } = order;
+
+  const dispatch = useDispatch();
+
+  useEffect(
+    function () {
+      fetcher.load('/menu');
+    },
+    [fetcher],
+  );
 
   const deliveryIn = calcMinutesLeft(estimatedDelivery);
 
@@ -72,6 +87,13 @@ function Order() {
         <p className="font-bold">
           To pay on delivery: {formatCurrency(orderPrice + priorityPrice)}
         </p>
+      </div>
+      <div className="flex justify-end ">
+        {priority === false && (
+          <Button onClick={() => dispatch(fetchOrder(id))} type={'small'}>
+            Make Priority
+          </Button>
+        )}
       </div>
     </div>
   );

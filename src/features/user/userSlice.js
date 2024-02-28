@@ -17,7 +17,7 @@ export const fetchAddress = createAsyncThunk(
       longitude: positionObj.coords.longitude,
     };
 
-    // 2)  reverse geocoding API to get a description of the user's address, so we can display it the order form, so that the user can correct it if wrong
+    // 2)  reverse geocoding API to get a description of the user's address, so i can display  the order form, so that the user can correct it if wrong
     const addressObj = await getAddress(position);
     const address = `${addressObj?.locality}, ${addressObj?.city} ${addressObj?.postcode}, ${addressObj?.countryName}`;
 
@@ -48,14 +48,15 @@ const userSlice = createSlice({
       .addCase(fetchAddress.pending, (state, action) => {
         state.status = 'loading';
       })
-      .builder.addCase(fetchAddress.fulfilled, (state, action) => {
+      .addCase(fetchAddress.fulfilled, (state, action) => {
         state.position = action.payload.position;
         state.address = action.payload.address;
         state.status = 'idle';
       })
-      .builder.addCase(fetchAddress.rejected, (state, action) => {
+      .addCase(fetchAddress.rejected, (state, action) => {
         state.status = 'error';
-        state.error = action.error.message;
+        state.error =
+          'There was a problem getting your address. Make sure to fill this field';
       }),
 });
 

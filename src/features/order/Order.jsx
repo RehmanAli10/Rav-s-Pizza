@@ -94,7 +94,7 @@ function Order() {
         </p>
       </div>
       <div className="flex justify-end ">
-        {priority === false && <UpdateOrder order={order} />}
+        {priority === false && <UpdateOrder />}
       </div>
     </div>
   );

@@ -1,21 +1,10 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getOrder } from '../../services/apiRestaurant';
-import Order from '../order/Order';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   cart: [],
   status: 'idle',
   error: '',
 };
-
-export const fetchOrder = createAsyncThunk(
-  'cart/fetchOrder',
-  async function (id) {
-    const order = await getOrder(id);
-    console.log(order);
-    return Order;
-  },
-);
 
 const cartSlice = createSlice({
   name: 'cart',
@@ -54,18 +43,6 @@ const cartSlice = createSlice({
       state.cart = [];
     },
   },
-  extraReducers: (build) =>
-    build
-      .addCase(
-        fetchOrder.pending,
-        (state, action) => (state.status = 'loading'),
-      )
-      .addCase(fetchOrder.fulfilled, (state, action) => {
-        state.status = 'idle';
-      })
-      .addCase(fetchOrder.rejected, (state, action) => {
-        state.error = 'Error while loading data';
-      }),
 });
 
 export const {

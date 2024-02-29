@@ -9,17 +9,14 @@ import {
   formatCurrency,
   formatDate,
 } from '../../utils/helpers';
-import Button from '../../ui/Button';
-import { useDispatch } from 'react-redux';
-import { fetchOrder } from '../cart/cartSlice';
 import { useEffect } from 'react';
+import UpdateOrder from './UpdateOrder';
 
 function Order() {
   const order = useLoaderData();
 
   const fetcher = useFetcher();
 
-  // Everyone can search for all orders, so for privacy reasons we're gonna gonna exclude names or address, these are only for the restaurant staff
   const {
     id,
     status,
@@ -30,11 +27,11 @@ function Order() {
     cart,
   } = order;
 
-  const dispatch = useDispatch();
-
   useEffect(
     function () {
-      fetcher.load('/menu');
+      if (!fetcher.data && fetcher.state === 'idle') {
+        fetcher.load('/menu');
+      }
     },
     [fetcher],
   );
@@ -71,7 +68,15 @@ function Order() {
 
       <ul className="dive-stone-200 divide-y border-b border-t">
         {cart.map((item) => (
-          <OrderItem item={item} key={item.pizzaId} />
+          <OrderItem
+            item={item}
+            key={item.pizzaId}
+            isLoadingIngredients={fetcher.state === 'loading'}
+            ingredients={
+              fetcher?.data?.find((currEle) => currEle.id === item.pizzaId)
+                ?.ingredients ?? []
+            }
+          />
         ))}
       </ul>
 
@@ -89,11 +94,7 @@ function Order() {
         </p>
       </div>
       <div className="flex justify-end ">
-        {priority === false && (
-          <Button onClick={() => dispatch(fetchOrder(id))} type={'small'}>
-            Make Priority
-          </Button>
-        )}
+        {priority === false && <UpdateOrder order={order} />}
       </div>
     </div>
   );
